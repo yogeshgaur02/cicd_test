@@ -23,6 +23,6 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: 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
         BRANCH: gh-pages
         FOLDER: .   # Change this if your HTML file is in a different folder
