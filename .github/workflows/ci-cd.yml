@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Deploy to Live Server
 
 on:
   push:
@@ -6,23 +6,15 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Build HTML
-      run: echo "Build HTML steps go here"
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+
     steps:
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      with:
-        GITHUB_TOKEN: ${{ secrets.PAT }}
-        BRANCH: gh-pages
-        FOLDER: .   # Change this if your HTML file is in a different folder
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Deploy to Live Server
+      run: |
+        rsync -av --delete ./ root@103.76.249.124:/home/demoemal/public_html/cicd
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
