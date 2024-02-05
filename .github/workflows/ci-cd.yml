@@ -15,6 +15,12 @@ jobs:
 
     - name: Deploy to Live Server
       run: |
-        rsync -av --delete ./ root@103.76.249.124:/home/demoemal/public_html/cicd
+        mkdir -p ~/.ssh/
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        rsync -av --delete -e "ssh -p 22445" \
+          --exclude CNAME --exclude .nojekyll --exclude .ssh --exclude .git --exclude .github \
+          ./ root@103.76.249.124:/home/demoemal/public_html/cicd
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
